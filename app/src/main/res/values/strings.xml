@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MovieApp</string>
+    <string name="no_internet_connection">No Internet connection…</string>
+    <string name="max_data_reached">Maximum Data Reached…</string>
+    <string name="movie_list">Movie List</string>
+    <string name="add">Add</string>
 </resources>
