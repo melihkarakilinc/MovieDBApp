@@ -124,7 +124,7 @@ class AllMovieFragment : Fragment(), ItemListener {
 
     override fun OnItemSelect(result: Result) {
         val direction = AllMovieFragmentDirections
-            .actionToDetailFragment(result.title)
+            .actionToDetailFragment(result)
         findNavController().navigate(direction)
     }
 }

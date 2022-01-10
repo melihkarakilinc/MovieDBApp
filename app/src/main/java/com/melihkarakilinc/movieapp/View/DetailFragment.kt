@@ -24,7 +24,7 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            val title = DetailFragmentArgs.fromBundle(it).movieTitle
+            val title = DetailFragmentArgs.fromBundle(it).result.title
             binding.txtDetailTitle.text = title
         }
     }

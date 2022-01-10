@@ -20,7 +20,7 @@
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <argument
-            android:name="movieTitle"
-            app:argType="string" />
+            android:name="result"
+            app:argType="com.melihkarakilinc.movieapp.Model.Result" />
     </fragment>
 </navigation>
