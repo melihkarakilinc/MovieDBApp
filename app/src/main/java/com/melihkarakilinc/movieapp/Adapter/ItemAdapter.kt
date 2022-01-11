@@ -4,15 +4,17 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.melihkarakilinc.movieapp.ApiUrl
+import com.melihkarakilinc.movieapp.ImageLoader
 import com.melihkarakilinc.movieapp.ItemListener
 import com.melihkarakilinc.movieapp.Model.Result
 import com.melihkarakilinc.movieapp.R
 import com.melihkarakilinc.movieapp.databinding.ItemLayoutBinding
 
-class ItemAdapter() : RecyclerView.Adapter<MainViewHolder>() {
+class ItemAdapter() : RecyclerView.Adapter<MainViewHolder>(),ImageLoader {
 
     private var movies = mutableListOf<Result>()
     lateinit var context: Context
