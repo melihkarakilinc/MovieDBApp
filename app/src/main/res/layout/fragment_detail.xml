@@ -93,8 +93,28 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="500dp" />
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="#B49FDA" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Similar Movies"
+            android:textColor="#2C2B2B"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSimilar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>
