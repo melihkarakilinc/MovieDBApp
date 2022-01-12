@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.melihkarakilinc.movieapp.Adapter.ItemAdapter
-import com.melihkarakilinc.movieapp.ItemListener
+import com.melihkarakilinc.movieapp.Utils.ItemListener
 import com.melihkarakilinc.movieapp.Model.Result
 import com.melihkarakilinc.movieapp.R
 import com.melihkarakilinc.movieapp.ViewModel.MainViewModel
@@ -58,19 +60,7 @@ class AllMovieFragment : Fragment(), ItemListener {
             gettRoomDatbase()
             Snackbar.make(view, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG)
                 .show()
-            binding.btnAdd.visibility = View.GONE
             binding.progressBar.visibility = View.GONE
-        }
-
-        binding.btnAdd.setOnClickListener {
-            deleteRoomDatabase()
-            if (page < 5) {
-                ++page
-                viewModel.getData(page)
-            } else {
-                Snackbar.make(view, getString(R.string.max_data_reached), Snackbar.LENGTH_LONG)
-                    .show()
-            }
         }
 
         viewModel.progres.observe(viewLifecycleOwner, Observer { it ->
@@ -85,10 +75,35 @@ class AllMovieFragment : Fragment(), ItemListener {
             adapter.movieList(movieList, this)
             deleteRoomDatabase()
             insertRoomDatabase()
+            binding.progressBarnew.visibility = View.GONE
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer { error ->
             Log.e("ERROR!", error)
+        })
+
+        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val position =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                if (position + 1 == movieList.size) {
+                    binding.progressBarnew.visibility = View.VISIBLE
+                    deleteRoomDatabase()
+                    if (page < 5) {
+                        ++page
+                        viewModel.getData(page)
+                    } else {
+                        Snackbar.make(
+                            view,
+                            getString(R.string.max_data_reached),
+                            Snackbar.LENGTH_LONG
+                        )
+                            .show()
+                        binding.progressBarnew.visibility = View.GONE
+
+                    }
+                }
+            }
         })
     }
 

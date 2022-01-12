@@ -1,4 +1,4 @@
-package com.melihkarakilinc.movieapp
+package com.melihkarakilinc.movieapp.Utils
 
 import com.melihkarakilinc.movieapp.Model.Result
 

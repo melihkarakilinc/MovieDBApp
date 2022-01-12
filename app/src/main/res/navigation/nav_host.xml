@@ -22,5 +22,8 @@
         <argument
             android:name="result"
             app:argType="com.melihkarakilinc.movieapp.Model.Result" />
+        <action
+            android:id="@+id/action_detailFragment_self"
+            app:destination="@id/detailFragment" />
     </fragment>
 </navigation>

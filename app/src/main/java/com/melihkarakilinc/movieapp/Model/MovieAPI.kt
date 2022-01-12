@@ -1,6 +1,6 @@
 package com.melihkarakilinc.movieapp.Model
 
-import com.melihkarakilinc.movieapp.ApiUrl
+import com.melihkarakilinc.movieapp.Utils.ApiUrl
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

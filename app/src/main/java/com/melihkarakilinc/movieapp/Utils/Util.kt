@@ -1,13 +1,13 @@
-package com.melihkarakilinc.movieapp
+package com.melihkarakilinc.movieapp.Utils
 
-import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.melihkarakilinc.movieapp.R
 
-interface ImageLoader {
-    fun imageLoad(context: Context, path: String, imageView: ImageView) {
+class Util {
+    fun imageLoader(path: String, imageView: ImageView) {
         Glide
-            .with(context)
+            .with(imageView.context)
             .load(ApiUrl.POSTER_PATH + path)
             .centerCrop()
             .placeholder(R.drawable.ic_baseline_add_24)
