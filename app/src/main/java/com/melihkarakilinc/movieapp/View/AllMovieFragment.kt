@@ -55,12 +55,14 @@ class AllMovieFragment : Fragment(), ItemListener {
             if (page == 1 && movieList.size == 0) {
                 deleteRoomDatabase()
                 viewModel.getData(page)
+                rvScroll()
             }
         } else {
             gettRoomDatbase()
             Snackbar.make(view, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG)
                 .show()
             binding.progressBar.visibility = View.GONE
+            binding.progressBarnew.visibility = View.GONE
         }
 
         viewModel.progres.observe(viewLifecycleOwner, Observer { it ->
@@ -82,29 +84,6 @@ class AllMovieFragment : Fragment(), ItemListener {
             Log.e("ERROR!", error)
         })
 
-        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val position =
-                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                if (position + 1 == movieList.size) {
-                    binding.progressBarnew.visibility = View.VISIBLE
-                    deleteRoomDatabase()
-                    if (page < 5) {
-                        ++page
-                        viewModel.getData(page)
-                    } else {
-                        Snackbar.make(
-                            view,
-                            getString(R.string.max_data_reached),
-                            Snackbar.LENGTH_LONG
-                        )
-                            .show()
-                        binding.progressBarnew.visibility = View.GONE
-
-                    }
-                }
-            }
-        })
     }
 
     fun insertRoomDatabase() {
@@ -141,5 +120,27 @@ class AllMovieFragment : Fragment(), ItemListener {
         val direction = AllMovieFragmentDirections
             .actionToDetailFragment(result)
         findNavController().navigate(direction)
+    }
+    private fun rvScroll(){
+        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val position =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                if (position + 1 == movieList.size) {
+                    binding.progressBarnew.visibility = View.VISIBLE
+                    deleteRoomDatabase()
+                    if (page < 5) {
+                        ++page
+                        viewModel.getData(page)
+                    } else {
+                        view?.let {
+                            Snackbar.make(it, getString(R.string.max_data_reached),Snackbar.LENGTH_LONG).show()
+                        }
+                        binding.progressBarnew.visibility = View.GONE
+                    }
+                }
+            }
+        })
+
     }
 }
