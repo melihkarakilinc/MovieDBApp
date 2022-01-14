@@ -2,6 +2,7 @@ package com.melihkarakilinc.movieapp.View
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,9 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.melihkarakilinc.movieapp.Adapter.ItemAdapter
-import com.melihkarakilinc.movieapp.Utils.ItemListener
 import com.melihkarakilinc.movieapp.Model.Result
 import com.melihkarakilinc.movieapp.R
+import com.melihkarakilinc.movieapp.Utils.ItemListener
 import com.melihkarakilinc.movieapp.ViewModel.MainViewModel
 import com.melihkarakilinc.movieapp.databinding.FragmentAllMovieBinding
 
@@ -31,6 +32,14 @@ class AllMovieFragment : Fragment(), ItemListener {
     private val viewModel: MainViewModel by viewModels()
     private val adapter = ItemAdapter()
     private var movieList = ArrayList<Result>()
+    lateinit var connMgr:ConnectivityManager
+    lateinit var networkInfo:NetworkInfo
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.e("Fragment","onCreate")
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,25 +47,27 @@ class AllMovieFragment : Fragment(), ItemListener {
     ): View? {
         _binding = FragmentAllMovieBinding.inflate(inflater, container, false)
         val view = binding.root
+        connMgr=activity
+            ?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        networkInfo = connMgr.activeNetworkInfo!!
         adapter.context = requireContext()
+        Log.e("Fragment","onCreatedView")
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("Fragment","onViewCreated")
+
 
         binding.rv.adapter = adapter
-        val connMgr = activity
-            ?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        val networkInfo = connMgr.activeNetworkInfo
-
-        if (networkInfo != null && networkInfo.isConnected) {
+        if (networkInfo.isConnected) {
             if (page == 1 && movieList.size == 0) {
                 deleteRoomDatabase()
                 viewModel.getData(page)
-                rvScroll()
             }
+            rvScroll()
         } else {
             gettRoomDatbase()
             Snackbar.make(view, getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG)

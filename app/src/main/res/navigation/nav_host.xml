@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.melihkarakilinc.movieapp.SplashFragment"
+        android:name="com.melihkarakilinc.movieapp.View.SplashFragment"
         android:label=""
         tools:layout="@layout/fragment_splash" >
         <action
