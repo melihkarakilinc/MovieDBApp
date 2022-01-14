@@ -32,8 +32,6 @@ class AllMovieFragment : Fragment(), ItemListener {
     private val viewModel: MainViewModel by viewModels()
     private val adapter = ItemAdapter()
     private var movieList = ArrayList<Result>()
-    lateinit var connMgr:ConnectivityManager
-    lateinit var networkInfo:NetworkInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +45,6 @@ class AllMovieFragment : Fragment(), ItemListener {
     ): View? {
         _binding = FragmentAllMovieBinding.inflate(inflater, container, false)
         val view = binding.root
-        connMgr=activity
-            ?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        networkInfo = connMgr.activeNetworkInfo!!
         adapter.context = requireContext()
         Log.e("Fragment","onCreatedView")
         return view
@@ -61,8 +56,12 @@ class AllMovieFragment : Fragment(), ItemListener {
 
 
         binding.rv.adapter = adapter
+        val connMgr = activity
+            ?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        if (networkInfo.isConnected) {
+        val networkInfo = connMgr.activeNetworkInfo
+
+        if (networkInfo!=null&&networkInfo.isConnected) {
             if (page == 1 && movieList.size == 0) {
                 deleteRoomDatabase()
                 viewModel.getData(page)
